@@ -5,6 +5,19 @@ body {
     justify-content: center;
     height: 100vh;
     font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
 }
 
 .board {
@@ -23,10 +36,17 @@ body {
     font-size: 2em;
     border: 1px solid #000;
     cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.3s;
+}
+
+.cell:hover {
+    background-color: #e0e0e0;
 }
 
 button {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 1em;
+    cursor: pointer;
 }
