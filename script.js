@@ -1,7 +1,11 @@
 const cells = document.querySelectorAll('.cell');
 const restartButton = document.getElementById('restart');
+const scoreXElement = document.getElementById('scoreX');
+const scoreOElement = document.getElementById('scoreO');
 let currentPlayer = 'X';
 let board = ['', '', '', '', '', '', '', '', ''];
+let scoreX = 0;
+let scoreO = 0;
 
 cells.forEach(cell => {
     cell.addEventListener('click', handleCellClick);
@@ -20,12 +24,16 @@ function handleCellClick(event) {
 
     if (checkWin()) {
         alert(`${currentPlayer} wins!`);
+        updateScore(currentPlayer);
         restartGame();
     } else if (board.every(cell => cell !== '')) {
         alert('Draw!');
         restartGame();
     } else {
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        if (currentPlayer === 'O') {
+            aiMove();
+        }
     }
 }
 
@@ -43,10 +51,38 @@ function checkWin() {
     });
 }
 
+function updateScore(player) {
+    if (player === 'X') {
+        scoreX++;
+        scoreXElement.textContent = scoreX;
+    } else {
+        scoreO++;
+        scoreOElement.textContent = scoreO;
+    }
+}
+
 function restartGame() {
-    board = ['', '', '', '', '', '', '', '', ''];
+    board.fill('');
     cells.forEach(cell => {
         cell.textContent = '';
     });
     currentPlayer = 'X';
+}
+
+function aiMove() {
+    const emptyCells = board.map((cell, index) => cell === '' ? index : null).filter(index => index !== null);
+    const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+    board[randomIndex] = 'O';
+    cells[randomIndex].textContent = 'O';
+
+    if (checkWin()) {
+        alert('O wins!');
+        updateScore('O');
+        restartGame();
+    } else if (board.every(cell => cell !== '')) {
+        alert('Draw!');
+        restartGame();
+    } else {
+        currentPlayer = 'X';
+    }
 }
